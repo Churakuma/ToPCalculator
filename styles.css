@@ -1,3 +1,11 @@
+/* VARIABLES */
+:root {
+    --primary-light: #ededed;
+    --secondary-light: #fefefe;
+    --primary-dark: #222832;
+    --secondary-dark: #060f2e;
+}
+
 /* FOOTER */
 .footer {
     position: absolute;
