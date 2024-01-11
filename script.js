@@ -1,44 +1,62 @@
 let num1 = 0;
 let num2 = 0;
-let operator = "";
+let canAddOperation = false;
+let canAddDecimal = false;
 let shouldResetScreen = false;
 
-const operators = document.querySelectorAll("operator-btn");
+const operators = document.querySelectorAll('[operator-btn]');
+const numbers = document.querySelectorAll('[number-btn]')
 const displayScreen = document.getElementById('display');
-
-const additionBtn = document.getElementById('add');
-const subtractionBtn = document.getElementById('subtract');
-const multiplicationBtn = document.getElementById('multiply');
-const divisionBtn = document.getElementById('divide');
-
-const nineBtn = document.getElementById('9')
-const eightBtn = document.getElementById('8')
-const sevenBtn = document.getElementById('7')
-const sixBtn = document.getElementById('6')
-const fiveBtn = document.getElementById('5')
-const fourBtn = document.getElementById('4')
-const threeBtn = document.getElementById('3')
-const twoBtn = document.getElementById('2')
-const oneBtn = document.getElementById('1')
-const zeroBtn = document.getElementById('0')
 
 const periodBtn = document.getElementById('.')
 const clearBtn = document.getElementById('AC')
 const equalsBtn = document.getElementById('equals')
 
+periodBtn.addEventListener('click', onDecimalPressed);
+clearBtn.addEventListener('click', onClear);
+
 operators.forEach((button) =>
-    button.addEventListener('click', () => appendNumber(button.textContent))
+    button.addEventListener('click', () => onOperationPressed(button.textContent, shouldResetScreen))
 );
 
-function appendNumber(number) {
-    if (shouldResetScreen || displayScreen.textContent === '0') {
-        resetScreen()
+numbers.forEach((button) =>
+    button.addEventListener('click', () => onNumericPressed(button.textContent))
+)
+
+function onOperationPressed(operation) {
+    if (canAddOperation) {
+        console.log("getting operator..")
+        displayScreen.textContent += operation;
+        canAddDecimal = false;
+        canAddOperation = false;
     }
-    displayScreen.textContent += number
+    
 }
 
-function resetScreen() {
+function onNumericPressed(number, resetScreen) {
+    console.log("setting number")
+    if (resetScreen || displayScreen.textContent === '0') {
+        setBlankScreen()
+    }
+    displayScreen.textContent += number;
+    canAddDecimal = true;
+    canAddOperation = true;
+}
+
+function onDecimalPressed() {
+    if (canAddDecimal) {
+        displayScreen.textContent += '.';
+        canAddOperation = false;
+        canAddDecimal = false;
+    }
+}
+
+function setBlankScreen() {
     displayScreen.textContent = '';
+}
+
+function onClear() {
+    displayScreen.textContent = '0';
     shouldResetScreen = false;
 }
 
@@ -58,25 +76,50 @@ function divide(num1, num2) {
     return num1 / num2;
 };
 
-function operate(num1, num2, operator) {
-    num1 = Number(num1);
-    num2 = Number(num2);
+function evaluate() {
+    let brokenUpInput = breakUpInput();
+    let timesDivision = timesDivisionCalculation(brokenUpInput);
+}
 
-    switch(operator) {
-        case "+":
-            add(num1, num2);
-            break;
-        case "-":
-            subtract(num1, num2);
-            break;
-        case "*":
-            multiply(num1, num2);        
-            break;
-        case "/":
-            divide(num1, num2);
-            break;
-        default:
-            break;
+function timesDivisionCalculation(alteredList) {
+    let list = alteredList;
+
+    while (list.contains('x') || list.contains('/')) {
+        list = calculateTimesandDivision(list);
     }
+
+    return list;
+}
+
+function calculateTimesandDivision(alteredList) {
+    let newList = [];
+    let restartIndex = alteredList.length
+
+    for (let index of alteredList.keys()) {
+        if (alteredList[index].length == 1 && index < restartIndex) {
+
+        }
+    }
+}
+
+function breakUpInput() {
+    let currentDigit = ''
+    let inputList = [];
     
+    console.log("breaking up current input: " + displayScreen.textContent)
+
+    for (character in displayScreen.textContent) {
+        if (character.isInteger() || character == '.') {
+            currentDigit += character;
+        } else {
+            inputList.push(currentDigit);
+            currentDigit = '';
+            inputList.push(character);
+        }
+    }
+
+    if (currentDigit != '') {
+        inputList.push(currentDigit);
+    }
+    console.log("Input: " + inputList)
 }
