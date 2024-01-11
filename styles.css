@@ -71,6 +71,10 @@ button {
     grid-template-columns: repeat(4, 1fr);
 }
 
+.btn {
+  font-size: 24px;
+}
+
 #equals {
     background-image: linear-gradient(to bottom, #fe886a, #ff7033);
     height: 320px;
