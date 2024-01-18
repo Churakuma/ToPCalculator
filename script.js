@@ -14,6 +14,7 @@ const equalsBtn = document.getElementById('equals')
 
 periodBtn.addEventListener('click', onDecimalPressed);
 clearBtn.addEventListener('click', onClear);
+// equalsBtn.addEventListener('click', evaluate);
 
 operators.forEach((button) =>
     button.addEventListener('click', () => onOperationPressed(button.textContent, shouldResetScreen))
@@ -29,8 +30,7 @@ function onOperationPressed(operation) {
         displayScreen.textContent += operation;
         canAddDecimal = false;
         canAddOperation = false;
-    }
-    
+    }   
 }
 
 function onNumericPressed(number, resetScreen) {
@@ -60,66 +60,3 @@ function onClear() {
     shouldResetScreen = false;
 }
 
-function add(num1, num2) {
-    return num1 + num2;
-};
-
-function subtract(num1, num2) {
-    return num1 - num2;
-};
-
-function multiply(num1, num2) {
-    return num1 * num2;
-};
-
-function divide(num1, num2) {
-    return num1 / num2;
-};
-
-function evaluate() {
-    let brokenUpInput = breakUpInput();
-    let timesDivision = timesDivisionCalculation(brokenUpInput);
-}
-
-function timesDivisionCalculation(alteredList) {
-    let list = alteredList;
-
-    while (list.contains('x') || list.contains('/')) {
-        list = calculateTimesandDivision(list);
-    }
-
-    return list;
-}
-
-function calculateTimesandDivision(alteredList) {
-    let newList = [];
-    let restartIndex = alteredList.length
-
-    for (let index of alteredList.keys()) {
-        if (alteredList[index].length == 1 && index < restartIndex) {
-
-        }
-    }
-}
-
-function breakUpInput() {
-    let currentDigit = ''
-    let inputList = [];
-    
-    console.log("breaking up current input: " + displayScreen.textContent)
-
-    for (character in displayScreen.textContent) {
-        if (character.isInteger() || character == '.') {
-            currentDigit += character;
-        } else {
-            inputList.push(currentDigit);
-            currentDigit = '';
-            inputList.push(character);
-        }
-    }
-
-    if (currentDigit != '') {
-        inputList.push(currentDigit);
-    }
-    console.log("Input: " + inputList)
-}
